@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Player : MonoBehaviour
 {
+    public Transform diggingHole;
     public float moveSpeed;
+
     private Vector2 targetPosition;
+
 
     Rigidbody2D rigidbody;
 
@@ -35,6 +39,19 @@ public class Player : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");
 
         rigidbody.velocity = new Vector2(horizontal * moveSpeed, vertical * moveSpeed);
+
+        //Digging/Using shovel
+        if (Input.GetKeyDown(KeyCode.X)){
+            /*Tilemap ground = GameObject.Find("Ground").GetComponent<Tilemap>();
+
+           Vector3Int tilePosition = ground.WorldToCell(transform.position);
+            ground.SetTile(tilePosition);
+            */
+
+            Transform d = Instantiate(diggingHole) as Transform;
+
+            d.position = gameObject.transform.position;
+        }
 
 
        /* if (Input.GetKeyDown(KeyCode.LeftArrow))
