@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
 
     private Vector2 targetPosition;
 
+    private SpaceshipPart diggablePart;
+
 
     Rigidbody2D rigidbody;
 
@@ -51,6 +53,12 @@ public class Player : MonoBehaviour
             Transform d = Instantiate(diggingHole) as Transform;
 
             d.position = gameObject.transform.position;
+
+            //If collided with diggable ship part -> Dig it out!
+            if(diggablePart != null)
+            {
+                diggablePart.DigOut();
+            }
         }
 
 
@@ -82,5 +90,26 @@ public class Player : MonoBehaviour
 
 
 
+    }
+
+   
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("SpaceshipPart"))
+        {
+            Debug.Log("Collided with SpaceshipPart");
+            diggablePart = collision.GetComponent<SpaceshipPart>();
+
+            
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("SpaceshipPart"))
+        {
+            Debug.Log("UnCollided with SpaceshipPart");
+            diggablePart = null;
+        }
     }
 }
