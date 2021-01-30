@@ -2,45 +2,36 @@
 using UnityEngine.Events;
 using Pathfinding;
 using static Pathfinding.AIDestinationSetter;
+using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
-    private GameObject[] aims;
-    private GameObject nearestAim;
-    private GameObject[] parts;
-    private GameObject nearestPart;
-
     private bool holdsPart = false;
-    private bool aggressive = false;
+    private bool isWaiting = false;
 
     private AIDestinationSetter aIDestinationSetter;
 
-
-    UnityEvent m_MyEvent = new UnityEvent();
-
     [SerializeField]
     private SpaceshipPart _part;
+    private Player _player;
+    [SerializeField]
+    private float _playerHearDistance = 5.0f;
+    [SerializeField]
+    private int _idleTimeAfterHide = 90;
 
     // Start is called before the first frame update
     void Start()
     {
-        /*
-        if (aims == null)
-        {
-            aims = GameObject.FindGameObjectsWithTag("EnemyAim");
-            
-        }
-        if (parts == null)
-        {
-            parts = GameObject.FindGameObjectsWithTag("SpaceshipPart");
-        }
-        FindNearestObjects(); */
-
         Animator anim = GetComponent<Animator>();
         anim.SetBool("isWalking", true);
 
+        _player = GameObject.FindObjectOfType<Player>();
+        _player.OnPlayerUsedShovel += HandlePlayerUsedShovel;
+
+
         aIDestinationSetter = this.GetComponent<AIDestinationSetter>();
-        if (!aIDestinationSetter.target)
+        
+        if (!aIDestinationSetter.target && aIDestinationSetter.targetType != TargetType.Idle)
             GetNewTarget(aIDestinationSetter.targetType);
     }
 
@@ -51,6 +42,11 @@ public class Enemy : MonoBehaviour
 
     private void GetNewTarget(TargetType type)
     {
+        if(type == TargetType.Idle)
+        {
+            return;
+        }
+
         if (type == TargetType.EnemyAim)
         {
             GameObject[] targets = GameObject.FindGameObjectsWithTag(type.ToString());
@@ -69,18 +65,34 @@ public class Enemy : MonoBehaviour
                 }
             }
             if (nearestTarget)
-                aIDestinationSetter.setTarget(nearestTarget.transform);
-
-            // TODO: no target left?
-
+                aIDestinationSetter.setTarget(nearestTarget.transform, type);
+            else
+            {
+                aIDestinationSetter.setTarget(null, TargetType.Idle);
+            }
 
         }
         else 
         {
             // shouled here only be player or spaceship
-            aIDestinationSetter.setTarget(GameObject.FindGameObjectWithTag(type.ToString()).transform);
+            aIDestinationSetter.setTarget(GameObject.FindGameObjectWithTag(type.ToString()).transform, type);
         }
         aIDestinationSetter.targetType = type;
+    }
+
+    private void HandlePlayerUsedShovel()
+    {
+        // TODO: check if 
+        float dist2d = Vector2.Distance((Vector2)transform.position, (Vector2)_player.transform.position);
+        if (dist2d < _playerHearDistance && !isWaiting)
+        {
+            StartFollowingPlayer();
+        }
+    }
+
+    private void StartFollowingPlayer()
+    {
+        aIDestinationSetter.setTarget(_player.transform, TargetType.Player);
     }
 
 
@@ -96,7 +108,6 @@ public class Enemy : MonoBehaviour
                 GetNewTarget(TargetType.Spaceship);
             }
             Debug.Log("Collided with player");
-
             // TODO: set player dazzle or something like that?
         } else  if (collision.CompareTag("Spaceship") && !holdsPart && aIDestinationSetter.targetType == TargetType.Spaceship)
         {
@@ -117,12 +128,26 @@ public class Enemy : MonoBehaviour
                 SpaceshipPart newPart = Instantiate(_part, aim.transform.position, Quaternion.identity);
                 newPart.DigIn();
             }
-
-            GetNewTarget(TargetType.Spaceship);
-            // TODO: Drop/hide spaceship part
-        } else
+            isWaiting = true;
+            StartCoroutine(WaitForNextSteal());
+        }
+        else if (collision.CompareTag("Enemy"))
+        {
+            // GameObject otherEnemy = collision.gameObject;
+            // TODO: maybe find some sort of avoidance?
+        }
+        else
         {
             // Debug.LogWarning("Collided with " + collision);
         }
+    }
+
+
+    IEnumerator WaitForNextSteal()
+    {
+        yield return new WaitForSeconds(_idleTimeAfterHide);
+
+        isWaiting = false;
+        GetNewTarget(TargetType.Spaceship);
     }
 }

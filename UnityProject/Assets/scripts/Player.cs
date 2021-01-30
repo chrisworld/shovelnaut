@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -27,6 +28,9 @@ public class Player : MonoBehaviour
     public int dazzleDuration = 4;
 
     Rigidbody2D rigidbody;
+
+    public delegate void PlayerUsedShovelEvent();
+    public event PlayerUsedShovelEvent OnPlayerUsedShovel;
 
 
     enum Direction {Up, Down, Left, Right};
@@ -98,7 +102,7 @@ public class Player : MonoBehaviour
             {
                 diggablePart.DigOut();
             }
-
+            OnPlayerUsedShovel();
             shovelMovesCount--;
         }
 
@@ -131,6 +135,7 @@ public class Player : MonoBehaviour
             }
 
             shovelhitbox.gameObject.SetActive(true);
+            OnPlayerUsedShovel();
 
             StartCoroutine(DeactivateShovelHitbox(shovelhitbox.gameObject));
         }
