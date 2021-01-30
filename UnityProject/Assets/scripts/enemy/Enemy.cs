@@ -10,7 +10,6 @@ public class Enemy : MonoBehaviour
     private GameObject[] parts;
     private GameObject nearestPart;
 
-    private bool arrivedAtAim = false;
     private bool holdsPart = false;
     private bool aggressive = false;
 
@@ -36,6 +35,10 @@ public class Enemy : MonoBehaviour
             parts = GameObject.FindGameObjectsWithTag("SpaceshipPart");
         }
         FindNearestObjects(); */
+
+        Animator anim = GetComponent<Animator>();
+        anim.SetBool("isWalking", true);
+
         aIDestinationSetter = this.GetComponent<AIDestinationSetter>();
         if (!aIDestinationSetter.target)
             GetNewTarget(aIDestinationSetter.targetType);

@@ -17,9 +17,10 @@ GameObject:
   - component: {fileID: 4568790353484606837}
   - component: {fileID: 619145655744504954}
   - component: {fileID: 4300382687182361150}
+  - component: {fileID: 18487244438250803}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -123,8 +124,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.008154452, y: -0.048927546}
-  m_Size: {x: 0.8042885, y: 0.90214443}
+  m_Offset: {x: -0.008154452, y: -0.059291244}
+  m_Size: {x: 0.8042885, y: 0.9228718}
   m_Direction: 0
 --- !u!114 &4568790353484606839
 MonoBehaviour:
@@ -217,6 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ee5f39bca2274b8481b8087a3632a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _part: {fileID: 240730242704217735, guid: 4bc414f31ba0046a598869dd6b28aec3, type: 3}
 --- !u!95 &4300382687182361150
 Animator:
   serializedVersion: 3
@@ -236,3 +238,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!70 &18487244438250803
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4568790353484606832}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.013818383, y: -0.091546535}
+  m_Size: {x: 1.5527346, y: 1.5527346}
+  m_Direction: 0
