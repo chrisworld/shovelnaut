@@ -12,6 +12,10 @@ public class Ping : MonoBehaviour
 
     public static Playing playing = Playing.None;
 
+    public static int pingCount;
+
+    public static AudioSource currentPing;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,19 +30,28 @@ public class Ping : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && ((isFast && playing != Playing.Fast) || (!isFast && playing == Playing.None)))
+        if (collision.CompareTag("Player")){
+            if (((isFast && playing != Playing.Fast) || (!isFast && playing == Playing.None)))
         {
-            pingSound.Play();
+                pingSound.Play();
 
-            if (isFast)
-            {
-                playing = Playing.Fast;
+                currentPing.Stop();
+                currentPing = pingSound;
+
+                if (isFast)
+                {
+                    playing = Playing.Fast;
+                }
+                else
+                {
+                    playing = Playing.Slow;
+                }
             }
-            else
-            {
-                playing = Playing.Slow;
-            }
+
+            pingCount++;
+
         }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -47,6 +60,9 @@ public class Ping : MonoBehaviour
         {
             pingSound.Stop();
 
+            pingCount--;
+
+            if(pingCount == 0)
             playing = Playing.None;
         }
     }
