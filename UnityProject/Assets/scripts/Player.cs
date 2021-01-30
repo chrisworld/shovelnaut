@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
 
     private bool dazzled = false;
 
+    public float dazzleFactor = 0.5f;
+    public int dazzleDuration = 4;
 
     Rigidbody2D rigidbody;
 
@@ -205,7 +207,20 @@ public class Player : MonoBehaviour
 
     public void Dazzle()
     {
-        dazzled = true;
-        // TODO: remove dazzle after X seconds
+        if(!dazzled)
+        {
+            dazzled = true;
+            moveSpeed *= dazzleFactor;
+            // TODO: remove dazzle after X seconds
+            StartCoroutine(RegainMovementSpeed());
+        }
+    }
+    IEnumerator RegainMovementSpeed()
+    {
+        yield return new WaitForSeconds(dazzleDuration);
+
+        dazzled = false;
+        moveSpeed *= (1/dazzleFactor);
+
     }
 }

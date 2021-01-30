@@ -15,9 +15,11 @@ GameObject:
   - component: {fileID: 4568790353484606839}
   - component: {fileID: 4568790353484606838}
   - component: {fileID: 4568790353484606837}
+  - component: {fileID: -5949072151180020427}
+  - component: {fileID: 1204768309729567362}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,7 +138,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 1
-  target: {fileID: 0}
+  targetType: 0
+  target: {fileID: 240730242704217732, guid: 4bc414f31ba0046a598869dd6b28aec3, type: 3}
 --- !u!114 &4568790353484606838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,3 +204,32 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
+--- !u!114 &-5949072151180020427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4568790353484606832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ee5f39bca2274b8481b8087a3632a67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _part: {fileID: 240730242704217735, guid: 4bc414f31ba0046a598869dd6b28aec3, type: 3}
+--- !u!70 &1204768309729567362
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4568790353484606832}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.03859973, y: -0.010649204}
+  m_Size: {x: 2.0930667, y: 2.0930667}
+  m_Direction: 0

@@ -12,12 +12,16 @@ public class SpaceshipPart : MonoBehaviour
     {
         
         GetComponent<Renderer>().enabled = false;
- }
+    }
 
-    // Update is called once per frame
-    void Update()
+
+    public void DigIn()
     {
-        
+        GetComponent<Renderer>().enabled = false;
+        isBuried = true;
+
+        Transform collectHitbox = transform.Find("CollectHitbox");
+        collectHitbox.gameObject.SetActive(false);
     }
 
     public void DigOut()
