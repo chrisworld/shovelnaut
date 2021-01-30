@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     private bool isWaiting = false;
 
     private AIDestinationSetter aIDestinationSetter;
+    private Animator anim;
 
     [SerializeField]
     private SpaceshipPart _part;
@@ -22,15 +23,17 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Animator anim = GetComponent<Animator>();
-        anim.SetBool("isWalking", true);
 
         _player = GameObject.FindObjectOfType<Player>();
         _player.OnPlayerUsedShovel += HandlePlayerUsedShovel;
 
 
         aIDestinationSetter = this.GetComponent<AIDestinationSetter>();
-        
+
+        anim = GetComponent<Animator>();
+        bool isInitialIdle = aIDestinationSetter.targetType == TargetType.Idle;
+        SetWalkingAnimation(!isInitialIdle);
+
         if (!aIDestinationSetter.target && aIDestinationSetter.targetType != TargetType.Idle)
             GetNewTarget(aIDestinationSetter.targetType);
     }
@@ -92,7 +95,13 @@ public class Enemy : MonoBehaviour
 
     private void StartFollowingPlayer()
     {
+        SetWalkingAnimation(true);
         aIDestinationSetter.setTarget(_player.transform, TargetType.Player);
+    }
+
+    private void SetWalkingAnimation(bool walk)
+    {
+        anim.SetBool("isWalking", walk);
     }
 
 
@@ -145,8 +154,9 @@ public class Enemy : MonoBehaviour
 
     IEnumerator WaitForNextSteal()
     {
+        SetWalkingAnimation(false);
         yield return new WaitForSeconds(_idleTimeAfterHide);
-
+        SetWalkingAnimation(true);
         isWaiting = false;
         GetNewTarget(TargetType.Spaceship);
     }

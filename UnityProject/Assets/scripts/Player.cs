@@ -174,7 +174,7 @@ public class Player : MonoBehaviour
     IEnumerator DeactivateShovelHitbox(GameObject hitbox)
     {
         yield return new WaitForSeconds(hitTime);
-
+        AstarPath.active.Scan();
         hitbox.SetActive(false);
 
     }
