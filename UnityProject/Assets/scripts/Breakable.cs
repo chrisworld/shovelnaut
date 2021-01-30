@@ -22,6 +22,8 @@ public class Breakable : MonoBehaviour
         //Destroy if shovel hits object
         if (collision.CompareTag("ShovelHitbox"))
         {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().shovelMovesCount--;
+
             Destroy(gameObject);
         }
     }

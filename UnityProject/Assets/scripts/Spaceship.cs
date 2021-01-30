@@ -6,6 +6,7 @@ public class Spaceship : MonoBehaviour
 {
     //Number of Parts in the Ship
     public int shipPartCount;
+    public int shovelMovesCount;
 
     // Start is called before the first frame update
     void Start()
@@ -24,8 +25,16 @@ public class Spaceship : MonoBehaviour
         //Return parts to ship
         if (collision.CompareTag("Player"))
         {
-            shipPartCount += collision.GetComponent<Player>().carriedShipPartsCount;
-            collision.GetComponent<Player>().carriedShipPartsCount = 0;
+            Player player = collision.GetComponent<Player>();
+
+            shipPartCount += player.carriedShipPartsCount;
+            player.carriedShipPartsCount = 0;
+
+
+            if(player.shovelMovesCount == 0)
+            {
+                player.shovelMovesCount = shovelMovesCount;
+            }
         }
     }
 }

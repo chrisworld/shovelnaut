@@ -17,6 +17,10 @@ public class Player : MonoBehaviour
 
     public int carriedShipPartsCount;
 
+    public int shovelMovesCount;
+
+    public bool canDig;
+
 
     Rigidbody2D rigidbody;
 
@@ -28,6 +32,9 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        canDig = true;
+
         targetPosition = new Vector2(0.0f, 0.0f);
 
         rigidbody = GetComponent<Rigidbody2D>();
@@ -70,26 +77,29 @@ public class Player : MonoBehaviour
         }
 
         //Digging with shovel
-        if (Input.GetKeyDown(KeyCode.X)){
-            /*Tilemap ground = GameObject.Find("Ground").GetComponent<Tilemap>();
+        if (Input.GetKeyDown(KeyCode.X) && shovelMovesCount > 0 && canDig){
+            Tilemap ground = GameObject.Find("Ground").GetComponent<Tilemap>();
 
            Vector3Int tilePosition = ground.WorldToCell(transform.position);
-            ground.SetTile(tilePosition);
-            */
+            //ground.SetTile(tilePosition);
+
+           Vector3 newPosition = ground.CellToWorld(tilePosition);
 
             Transform d = Instantiate(diggingHole) as Transform;
 
-            d.position = gameObject.transform.position;
+            d.position = new Vector3(newPosition.x, newPosition.y, 0);
 
             //If collided with diggable ship part -> Dig it out!
             if(diggablePart != null)
             {
                 diggablePart.DigOut();
             }
+
+            shovelMovesCount--;
         }
 
         //Hit with shovel
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) && shovelMovesCount > 0)
         {
 
             Transform shovelhitbox = null;

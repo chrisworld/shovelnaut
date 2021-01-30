@@ -42096,8 +42096,10 @@ MonoBehaviour:
   diggingHole: {fileID: 8853086884812593744, guid: eeb9fb719ddde46a5a91582fafa5c318,
     type: 3}
   moveSpeed: 5
-  hitTime: 1
+  hitTime: 0.1
   carriedShipPartsCount: 0
+  shovelMovesCount: 0
+  canDig: 0
 --- !u!212 &737140462
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -43129,6 +43131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shipPartCount: 0
+  shovelMovesCount: 10
 --- !u!61 &2142747978
 BoxCollider2D:
   m_ObjectHideFlags: 0
