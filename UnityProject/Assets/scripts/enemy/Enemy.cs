@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using Pathfinding;
 using static Pathfinding.AIDestinationSetter;
 using System.Collections;
+using Pathfinding;
 
 public class Enemy : MonoBehaviour
 {
@@ -144,6 +145,7 @@ public class Enemy : MonoBehaviour
         {
             // GameObject otherEnemy = collision.gameObject;
             // TODO: maybe find some sort of avoidance?
+            StartCoroutine(CheckIfStuck());
         }
         else
         {
@@ -151,6 +153,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    IEnumerator CheckIfStuck()
+    {
+        // TODO: maybe try to unstuck them somehow..
+        yield return new WaitForSeconds(2);
+        if (GetComponent<Rigidbody2D>().velocity.magnitude < 0.5)
+        {
+            AstarPath.active.Scan();
+        }
+    }
 
     IEnumerator WaitForNextSteal()
     {
