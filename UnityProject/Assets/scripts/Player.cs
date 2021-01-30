@@ -8,12 +8,22 @@ public class Player : MonoBehaviour
     public Transform diggingHole;
     public float moveSpeed;
 
+    //how long shovel hitbox appears when hitting
+    public float hitTime;
+
     private Vector2 targetPosition;
 
     private SpaceshipPart diggablePart;
 
+    public int carriedShipPartsCount;
+
 
     Rigidbody2D rigidbody;
+
+
+    enum Direction {Up, Down, Left, Right};
+
+    private Direction direction;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +52,24 @@ public class Player : MonoBehaviour
 
         rigidbody.velocity = new Vector2(horizontal * moveSpeed, vertical * moveSpeed);
 
-        //Digging/Using shovel
+        if(horizontal < 0)
+        {
+            direction = Direction.Left;
+        }
+        else if (horizontal > 0)
+        {
+            direction = Direction.Right;
+        }
+        else if (vertical < 0)
+        {
+            direction = Direction.Down;
+        }
+        else if (vertical > 0)
+        {
+            direction = Direction.Up;
+        }
+
+        //Digging with shovel
         if (Input.GetKeyDown(KeyCode.X)){
             /*Tilemap ground = GameObject.Find("Ground").GetComponent<Tilemap>();
 
@@ -59,6 +86,39 @@ public class Player : MonoBehaviour
             {
                 diggablePart.DigOut();
             }
+        }
+
+        //Hit with shovel
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+
+            Transform shovelhitbox = null;
+
+            if(direction == Direction.Left)
+            {
+              shovelhitbox = transform.Find("ShovelHitboxLeft");
+
+
+            }
+            else if (direction == Direction.Right)
+            {
+                shovelhitbox = transform.Find("ShovelHitboxRight");
+
+            }
+            else if (direction == Direction.Up)
+            {
+                shovelhitbox = transform.Find("ShovelHitboxUp");
+
+            }
+            else if (direction == Direction.Down)
+            {
+                shovelhitbox = transform.Find("ShovelHitboxDown");
+
+            }
+
+            shovelhitbox.gameObject.SetActive(true);
+
+            StartCoroutine(DeactivateShovelHitbox(shovelhitbox.gameObject));
         }
 
 
@@ -92,7 +152,14 @@ public class Player : MonoBehaviour
 
     }
 
-   
+    IEnumerator DeactivateShovelHitbox(GameObject hitbox)
+    {
+        yield return new WaitForSeconds(hitTime);
+
+        hitbox.SetActive(false);
+
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("SpaceshipPart"))
@@ -111,5 +178,16 @@ public class Player : MonoBehaviour
             Debug.Log("UnCollided with SpaceshipPart");
             diggablePart = null;
         }
+    }
+
+    //Collect a ship part   
+    public void GetShipPart()
+    {
+        carriedShipPartsCount++;
+    }
+
+    public void LoseShipPart()
+    {
+        carriedShipPartsCount--;
     }
 }

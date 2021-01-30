@@ -24,5 +24,17 @@ public class SpaceshipPart : MonoBehaviour
     {
         GetComponent<Renderer>().enabled = true;
         isBuried = false;
+
+        Transform collectHitbox = transform.Find("CollectHitbox");
+        collectHitbox.gameObject.SetActive(true);
+    }
+
+    public void Collect(Player player)
+    {
+        Debug.Log("Collecting SpaceShip part");
+
+        player.GetShipPart();
+
+        Destroy(gameObject);
     }
 }
