@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class Enemy : MonoBehaviour
 {
@@ -13,10 +14,12 @@ public class Enemy : MonoBehaviour
     private bool holdsPart = false;
     private bool aggressive = false;
 
-    public float enemySpeed = 2.0f;
+    private AIDestinationSetter aIDestinationSetter;
+
     // Start is called before the first frame update
     void Start()
     {
+        /*
         if (aims == null)
         {
             aims = GameObject.FindGameObjectsWithTag("EnemyAim");
@@ -26,7 +29,8 @@ public class Enemy : MonoBehaviour
         {
             parts = GameObject.FindGameObjectsWithTag("SpaceshipPart");
         }
-        FindNearestObjects();
+        FindNearestObjects(); */
+        aIDestinationSetter = this.GetComponent<AIDestinationSetter>();
     }
     
     void FindNearestObjects()
@@ -61,39 +65,35 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        // bring parts to spaceship
-        if (holdsPart)
-        {
-            Debug.Log("moving towards aim");
-            Vector2 distToAim = new Vector2(this.transform.position.x - nearestAim.transform.position.x,
-                this.transform.position.y - nearestAim.transform.position.y);
-            if (distToAim.sqrMagnitude > 0.1f)
-            {
-                this.transform.position = Vector2.MoveTowards(this.transform.position, nearestAim.transform.position, enemySpeed * Time.deltaTime);
-            }
-            else if (!arrivedAtAim)
-            {
-                holdsPart = false;
-                FindNearestObjects();
-                // TODO: hide part, drop part etc
-            }
+    }
 
-        }
-        // find new parts
-        else if(!holdsPart)
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //Return parts to ship
+        if (collision.CompareTag("Player"))
         {
-            Debug.Log("moving towards part");
-            Vector2 distToPart = new Vector2(this.transform.position.x -  nearestPart.transform.position.x,
-                this.transform.position.y - nearestPart.transform.position.y);
-            if (distToPart.sqrMagnitude > 0.1f)
-            {
-                this.transform.position = Vector2.MoveTowards(this.transform.position, nearestPart.transform.position, enemySpeed * Time.deltaTime);
-            }
-            else if (!holdsPart)
-            {
-                holdsPart = true;
-                // TODO: hide part, drop part etc
-            }
+            Player player = collision.GetComponent<Player>();
+            // Debug.Log("Collided with player");
+
+            // TODO: set player dazzle or something like that?
+        } else  if (collision.CompareTag("Spaceship"))
+        {
+            // Debug.Log("Collided with spaceship");
+            Spaceship spaceship = collision.GetComponent<Spaceship>();
+            spaceship.StealPart();
+            aIDestinationSetter.setTargetType(AIDestinationSetter.TargetType.EnemyAim);
+            // TODO: remove spaceship part
+        } else if(collision.CompareTag("EnemyAim"))
+        {
+            // Debug.Log("Collided with EnemyAim");
+            GameObject aim = collision.gameObject;
+            aIDestinationSetter.setTargetType(AIDestinationSetter.TargetType.Spaceship);
+            // TODO: Drop/hide spaceship part
+        } else
+        {
+
+            Debug.LogWarning("Collided with " + collision);
         }
     }
 }

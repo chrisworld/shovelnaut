@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3008165806030523651}
   - component: {fileID: 279841615611864243}
+  - component: {fileID: -8095135641431025612}
   m_Layer: 0
   m_Name: EnemyAim
   m_TagString: EnemyAim
@@ -81,3 +82,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &-8095135641431025612
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3529930085174216398}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.031234523, y: 0.031234521}
+  serializedVersion: 2
+  m_Radius: 0.7208595

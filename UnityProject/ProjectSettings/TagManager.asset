@@ -7,6 +7,8 @@ TagManager:
   - EnemyAim
   - SpaceshipPart
   - ShovelHitbox
+  - Spaceship
+  - Enemy
   layers:
   - Default
   - TransparentFX

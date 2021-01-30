@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
 
     public bool canDig;
 
+    private bool dazzled = false;
+
 
     Rigidbody2D rigidbody;
 
@@ -199,5 +201,11 @@ public class Player : MonoBehaviour
     public void LoseShipPart()
     {
         carriedShipPartsCount--;
+    }
+
+    public void Dazzle()
+    {
+        dazzled = true;
+        // TODO: remove dazzle after X seconds
     }
 }

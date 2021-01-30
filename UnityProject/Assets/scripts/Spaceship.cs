@@ -37,4 +37,9 @@ public class Spaceship : MonoBehaviour
             }
         }
     }
+
+    public void StealPart()
+    {
+        shipPartCount--;
+    }
 }
