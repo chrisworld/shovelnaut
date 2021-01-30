@@ -80,14 +80,14 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X) && shovelMovesCount > 0 && canDig){
             Tilemap ground = GameObject.Find("Ground").GetComponent<Tilemap>();
 
-           Vector3Int tilePosition = ground.WorldToCell(transform.position);
+           Vector3Int tilePosition = ground.WorldToCell(new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z));
             //ground.SetTile(tilePosition);
 
            Vector3 newPosition = ground.CellToWorld(tilePosition);
 
             Transform d = Instantiate(diggingHole) as Transform;
 
-            d.position = new Vector3(newPosition.x, newPosition.y, 0);
+            d.position = new Vector3(newPosition.x + 0.1875f + 0.3125f, newPosition.y - 0.1875f - 0.3125f, 0);
 
             //If collided with diggable ship part -> Dig it out!
             if(diggablePart != null)
