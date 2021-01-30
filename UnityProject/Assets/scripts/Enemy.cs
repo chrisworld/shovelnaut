@@ -5,19 +5,32 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     private GameObject[] aims;
-    private GameObject aim;
+    private GameObject nearestAim;
+    private GameObject[] parts;
+    private GameObject nearestPart;
 
     private bool arrivedAtAim = false;
+    private bool holdsPart = false;
+    private bool aggressive = false;
+
+    public float enemySpeed = 2.0f;
     // Start is called before the first frame update
     void Start()
     {
         if (aims == null)
         {
             aims = GameObject.FindGameObjectsWithTag("EnemyAim");
-            // aim = GameObject.FindWithTag("EnemyAim");
             
         }
-
+        if (parts == null)
+        {
+            parts = GameObject.FindGameObjectsWithTag("SpaceshipPart");
+        }
+        FindNearestObjects();
+    }
+    
+    void FindNearestObjects()
+    {
         float dist = float.PositiveInfinity;
         foreach (var a in aims)
         {
@@ -27,26 +40,60 @@ public class Enemy : MonoBehaviour
             if (d < dist)
             {
                 dist = d;
-                aim = a;
+                nearestAim = a;
             }
         }
 
+        dist = float.PositiveInfinity;
+        foreach (var p in parts)
+        {
+            Vector2 dist2d = new Vector2(this.transform.position.x - p.transform.position.x,
+                this.transform.position.y - p.transform.position.y);
+            var d = dist2d.sqrMagnitude;
+            if (d < dist)
+            {
+                dist = d;
+                nearestPart = p;
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void FixedUpdate()
     {
-        // TODO: doesn't work as expected yet. both branches executed?!
-        Vector2 dist2d = new Vector2(this.transform.position.x - aim.transform.position.x,
-            this.transform.position.y - aim.transform.position.y);
-        if (dist2d.sqrMagnitude > 0.5f)
+        // bring parts to spaceship
+        if (holdsPart)
         {
-            this.transform.position = Vector2.MoveTowards(this.transform.position, aim.transform.position, 4.0f * Time.deltaTime);
+            Debug.Log("moving towards aim");
+            Vector2 distToAim = new Vector2(this.transform.position.x - nearestAim.transform.position.x,
+                this.transform.position.y - nearestAim.transform.position.y);
+            if (distToAim.sqrMagnitude > 0.1f)
+            {
+                this.transform.position = Vector2.MoveTowards(this.transform.position, nearestAim.transform.position, enemySpeed * Time.deltaTime);
+            }
+            else if (!arrivedAtAim)
+            {
+                holdsPart = false;
+                FindNearestObjects();
+                // TODO: hide part, drop part etc
+            }
+
         }
-        else if (!arrivedAtAim) ;
+        // find new parts
+        else if(!holdsPart)
         {
-            // Debug.Log("arrived!" + dist2d.sqrMagnitude);
-            arrivedAtAim = true;
+            Debug.Log("moving towards part");
+            Vector2 distToPart = new Vector2(this.transform.position.x -  nearestPart.transform.position.x,
+                this.transform.position.y - nearestPart.transform.position.y);
+            if (distToPart.sqrMagnitude > 0.1f)
+            {
+                this.transform.position = Vector2.MoveTowards(this.transform.position, nearestPart.transform.position, enemySpeed * Time.deltaTime);
+            }
+            else if (!holdsPart)
+            {
+                holdsPart = true;
+                // TODO: hide part, drop part etc
+            }
         }
     }
 }
