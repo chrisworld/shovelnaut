@@ -140,7 +140,8 @@ public class Player : MonoBehaviour
             {
                 aim.hasHiddenPart = false;
             }
-            OnPlayerUsedShovel();
+            if (OnPlayerUsedShovel != null)
+                OnPlayerUsedShovel();
             shovelMovesCount--;
         }
 
