@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestScene.unity
     guid: bdda928bac2ce4e4ca84d08afa20ffcd
+  - enabled: 1
+    path: Assets/Scenes/DominikScene.unity
+    guid: 0b8ea99ca87144182b8d4e62fa4ce87b
   m_configObjects: {}

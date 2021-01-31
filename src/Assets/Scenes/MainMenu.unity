@@ -1518,5 +1518,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d647530bc8804d6a9fd349d64b01ffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameSceneName: TestScene
+  GameSceneName: DominikScene
   helpPanel: {fileID: 2039270159}
