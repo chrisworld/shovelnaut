@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     private Vector2 targetPosition;
 
     private SpaceshipPart diggablePart;
+    private EnemyAim aim;
 
     public int carriedShipPartsCount;
 
@@ -117,6 +118,10 @@ public class Player : MonoBehaviour
             {
                 diggablePart.DigOut();
             }
+            if(aim != null && aim.hasHiddenPart)
+            {
+                aim.hasHiddenPart = false;
+            }
             OnPlayerUsedShovel();
             shovelMovesCount--;
         }
@@ -202,8 +207,10 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Collided with SpaceshipPart");
             diggablePart = collision.GetComponent<SpaceshipPart>();
-
-            
+        }
+        if (collision.CompareTag("EnemyAim"))
+        {
+            aim = collision.GetComponent<EnemyAim>();
         }
     }
 
@@ -213,6 +220,10 @@ public class Player : MonoBehaviour
         {
             Debug.Log("UnCollided with SpaceshipPart");
             diggablePart = null;
+        }
+        if (collision.CompareTag("EnemyAim"))
+        {
+            aim = null;
         }
     }
 
