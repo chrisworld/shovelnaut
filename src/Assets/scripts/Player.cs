@@ -129,6 +129,8 @@ public class Player : MonoBehaviour
 
             Transform d = Instantiate(diggingHole) as Transform;
 
+            StartCoroutine(DigAnimation());
+
             d.position = new Vector3(newPosition.x + 0.1875f + 0.3125f, newPosition.y - 0.1875f - 0.3125f, 0);
 
             //If collided with diggable ship part -> Dig it out!
@@ -285,6 +287,18 @@ public class Player : MonoBehaviour
 
         dazzled = false;
         moveSpeed *= (1/dazzleFactor);
+
+    }
+
+    IEnumerator DigAnimation()
+    {
+        Animator anim = GetComponent<Animator>();
+
+        anim.SetBool("isDigging", true);
+
+        yield return new WaitForSeconds(0.6f);
+
+        anim.SetBool("isDigging", false);
 
     }
 }
