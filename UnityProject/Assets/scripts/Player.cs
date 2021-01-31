@@ -61,6 +61,17 @@ public class Player : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
+        Animator anim = GetComponent<Animator>();
+
+        if(horizontal != 0 || vertical != 0)
+        {
+            anim.SetBool("isWalking", true);
+        }
+        else
+        {
+            anim.SetBool("isWalking", false);
+        }
+
         rigidbody.velocity = new Vector2(horizontal * moveSpeed, vertical * moveSpeed);
 
         if(horizontal < 0)
@@ -203,6 +214,17 @@ public class Player : MonoBehaviour
     public void LoseShipPart()
     {
         carriedShipPartsCount--;
+    }
+
+
+    public void DamageShovel(int damage)
+    {
+        shovelMovesCount -= damage;
+
+        if(shovelMovesCount < 0)
+        {
+            shovelMovesCount = 0;
+        }
     }
 
     public void Dazzle()

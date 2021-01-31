@@ -26,7 +26,7 @@ public class DamageShovel : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<Player>().shovelMovesCount -= damage;
+            collision.GetComponent<Player>().DamageShovel(damage);
             Destroy(gameObject);
         }
     }
