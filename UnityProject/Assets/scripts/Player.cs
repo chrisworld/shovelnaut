@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
         targetPosition = new Vector2(0.0f, 0.0f);
 
         rigidbody = GetComponent<Rigidbody2D>();
+        AudioSource audioSource = GetComponent<AudioSource>();
+        if (audioSource) audioSource.ignoreListenerPause = true;
     }
 
     // Update is called once per frame

@@ -9,6 +9,7 @@ TagManager:
   - ShovelHitbox
   - Spaceship
   - Enemy
+  - Pause
   layers:
   - Default
   - TransparentFX
