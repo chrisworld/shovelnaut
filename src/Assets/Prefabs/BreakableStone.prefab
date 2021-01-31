@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6419584757973313129}
   - component: {fileID: 6419584757973313134}
   - component: {fileID: 6419584757973313135}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BreakableStone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
