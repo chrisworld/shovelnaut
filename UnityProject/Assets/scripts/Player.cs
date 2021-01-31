@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.Controls;
 
 public class Player : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class Player : MonoBehaviour
     private Vector2 targetPosition;
 
     private SpaceshipPart diggablePart;
+    private EnemyAim aim;
 
     public int carriedShipPartsCount;
 
@@ -64,9 +66,19 @@ public class Player : MonoBehaviour
         this.transform.position = Vector2.MoveTowards(this.transform.position, targetPosition, speed * Time.deltaTime);
         */
 
+        bool wasMovementReleased = false;
+        if (Gamepad.current != null)
+        {
+            StickControl leftStick = Gamepad.current.leftStick;
+            wasMovementReleased = leftStick.right.wasReleasedThisFrame || leftStick.left.wasReleasedThisFrame || leftStick.up.wasReleasedThisFrame || leftStick.down.wasReleasedThisFrame;
+        }
+        wasMovementReleased = wasMovementReleased || Input.GetKeyUp("w") || Input.GetKeyUp("a") || Input.GetKeyUp("s") || Input.GetKeyUp("d") ||
+            Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow);
+
 
         float horizontal = Input.GetAxisRaw("Horizontal") != 0 ? Input.GetAxisRaw("Horizontal") : Gamepad.current != null ? Gamepad.current.leftStick.ReadValue().x  : 0;
         float vertical = Input.GetAxisRaw("Vertical") != 0 ? Input.GetAxisRaw("Vertical") : Gamepad.current != null ? Gamepad.current.leftStick.ReadValue().y : 0;
+
 
         Animator anim = GetComponent<Animator>();
 
@@ -79,9 +91,16 @@ public class Player : MonoBehaviour
             anim.SetBool("isWalking", false);
         }
 
-        rigidbody.velocity = new Vector2(horizontal * moveSpeed, vertical * moveSpeed);
+        if (wasMovementReleased && horizontal == 0 && vertical == 0)
+        {
+            Debug.Log("Was released movement " + rigidbody.velocity);
+            rigidbody.AddForce(rigidbody.velocity * 5);
+        } else
+        {
+            rigidbody.velocity = new Vector2(horizontal * moveSpeed, vertical * moveSpeed);
+        }
 
-        if(horizontal < 0)
+        if (horizontal < 0)
         {
             direction = Direction.Left;
         }
@@ -116,6 +135,10 @@ public class Player : MonoBehaviour
             if(diggablePart != null)
             {
                 diggablePart.DigOut();
+            }
+            if(aim != null && aim.hasHiddenPart)
+            {
+                aim.hasHiddenPart = false;
             }
             OnPlayerUsedShovel();
             shovelMovesCount--;
@@ -202,8 +225,10 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Collided with SpaceshipPart");
             diggablePart = collision.GetComponent<SpaceshipPart>();
-
-            
+        }
+        if (collision.CompareTag("EnemyAim"))
+        {
+            aim = collision.GetComponent<EnemyAim>();
         }
     }
 
@@ -213,6 +238,10 @@ public class Player : MonoBehaviour
         {
             Debug.Log("UnCollided with SpaceshipPart");
             diggablePart = null;
+        }
+        if (collision.CompareTag("EnemyAim"))
+        {
+            aim = null;
         }
     }
 
