@@ -35,7 +35,7 @@ public class Ping : MonoBehaviour
         {
                 pingSound.Play();
 
-                currentPing.Stop();
+                currentPing?.Stop();
                 currentPing = pingSound;
 
                 if (isFast)

@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -28,6 +30,9 @@ public class Player : MonoBehaviour
 
     Rigidbody2D rigidbody;
 
+    public delegate void PlayerUsedShovelEvent();
+    public event PlayerUsedShovelEvent OnPlayerUsedShovel;
+
 
     enum Direction {Up, Down, Left, Right};
 
@@ -45,7 +50,7 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //Mouse Controls
         /*
@@ -58,8 +63,8 @@ public class Player : MonoBehaviour
         */
 
 
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal") != 0 ? Input.GetAxisRaw("Horizontal") : Gamepad.current.leftStick.ReadValue().x;
+        float vertical = Input.GetAxisRaw("Vertical") != 0 ? Input.GetAxisRaw("Vertical") : Gamepad.current.leftStick.ReadValue().y;
 
         Animator anim = GetComponent<Animator>();
 
@@ -92,7 +97,7 @@ public class Player : MonoBehaviour
         }
 
         //Digging with shovel
-        if (Input.GetKeyDown(KeyCode.X) && shovelMovesCount > 0 && canDig){
+        if ((Input.GetKeyDown(KeyCode.X) || Gamepad.current.xButton.wasPressedThisFrame)  && shovelMovesCount > 0 && canDig){
             Tilemap ground = GameObject.Find("Ground").GetComponent<Tilemap>();
 
            Vector3Int tilePosition = ground.WorldToCell(new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z));
@@ -109,12 +114,12 @@ public class Player : MonoBehaviour
             {
                 diggablePart.DigOut();
             }
-
+            OnPlayerUsedShovel();
             shovelMovesCount--;
         }
 
         //Hit with shovel
-        if (Input.GetKeyDown(KeyCode.C) && shovelMovesCount > 0)
+        if ((Input.GetKeyDown(KeyCode.C) || Gamepad.current.aButton.wasPressedThisFrame) && shovelMovesCount > 0)
         {
 
             Transform shovelhitbox = null;
@@ -142,6 +147,7 @@ public class Player : MonoBehaviour
             }
 
             shovelhitbox.gameObject.SetActive(true);
+            OnPlayerUsedShovel();
 
             StartCoroutine(DeactivateShovelHitbox(shovelhitbox.gameObject));
         }
@@ -180,7 +186,7 @@ public class Player : MonoBehaviour
     IEnumerator DeactivateShovelHitbox(GameObject hitbox)
     {
         yield return new WaitForSeconds(hitTime);
-
+        AstarPath.active.Scan();
         hitbox.SetActive(false);
 
     }
@@ -236,6 +242,7 @@ public class Player : MonoBehaviour
             // TODO: remove dazzle after X seconds
             StartCoroutine(RegainMovementSpeed());
         }
+        if (shovelMovesCount > 0) shovelMovesCount--;
     }
     IEnumerator RegainMovementSpeed()
     {

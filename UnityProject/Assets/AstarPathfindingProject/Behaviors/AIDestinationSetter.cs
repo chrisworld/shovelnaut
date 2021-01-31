@@ -16,7 +16,7 @@ namespace Pathfinding {
 	public class AIDestinationSetter : VersionedMonoBehaviour {
 		/// <summary>The object that the AI should move to</summary>
 
-		public enum TargetType { Spaceship, Player, EnemyAim};
+		public enum TargetType { Spaceship, Player, EnemyAim, Idle};
 		public TargetType targetType;
 		public Transform target;
 		IAstarAI ai;
@@ -40,9 +40,10 @@ namespace Pathfinding {
 			if (target != null && ai != null) ai.destination = target.position;
 		}
 
-		public void setTarget(Transform tar)
+		public void setTarget(Transform tar, TargetType type)
         {
 			target = tar;
+			targetType = type;
         }
 	}
 }
