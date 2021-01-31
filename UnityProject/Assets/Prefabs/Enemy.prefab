@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 4300382687182361150}
   - component: {fileID: 18487244438250803}
   - component: {fileID: 7936384585336725479}
+  - component: {fileID: 1743039757942792341}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -221,6 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _part: {fileID: 240730242704217735, guid: 4bc414f31ba0046a598869dd6b28aec3, type: 3}
   _playerHearDistance: 10
+  _idleTimeAfterHide: 90
 --- !u!95 &4300382687182361150
 Animator:
   serializedVersion: 3
@@ -272,3 +274,23 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &1743039757942792341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4568790353484606832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e6d723fa5ffc405098ade8111381db9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepsUp: {fileID: 7896088488067598804, guid: 7ae28cc6b4ca4431c9026921ce821e79,
+    type: 3}
+  footstepsDown: {fileID: 7896088488067598804, guid: 7ae28cc6b4ca4431c9026921ce821e79,
+    type: 3}
+  footstepsLeft: {fileID: 7896088488067598804, guid: b612097fe03d3435f90fb2484a1c1099,
+    type: 3}
+  footstepsRight: {fileID: 7896088488067598804, guid: b612097fe03d3435f90fb2484a1c1099,
+    type: 3}
