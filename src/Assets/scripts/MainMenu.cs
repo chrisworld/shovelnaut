@@ -14,7 +14,6 @@ public class MainMenu : MonoBehaviour
 
     private void Update()
     {
-
         if (Input.GetMouseButtonDown(0))
         {
             if (displayHelp)
@@ -26,7 +25,6 @@ public class MainMenu : MonoBehaviour
             }
         }
     }
-
 
     public void LoadScene()
     {
