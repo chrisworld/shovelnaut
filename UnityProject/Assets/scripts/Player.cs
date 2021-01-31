@@ -63,8 +63,8 @@ public class Player : MonoBehaviour
         */
 
 
-        float horizontal = Input.GetAxisRaw("Horizontal") != 0 ? Input.GetAxisRaw("Horizontal") : Gamepad.current.leftStick.ReadValue().x;
-        float vertical = Input.GetAxisRaw("Vertical") != 0 ? Input.GetAxisRaw("Vertical") : Gamepad.current.leftStick.ReadValue().y;
+        float horizontal = Input.GetAxisRaw("Horizontal") != 0 ? Input.GetAxisRaw("Horizontal") : Gamepad.current != null ? Gamepad.current.leftStick.ReadValue().x  : 0;
+        float vertical = Input.GetAxisRaw("Vertical") != 0 ? Input.GetAxisRaw("Vertical") : Gamepad.current != null ? Gamepad.current.leftStick.ReadValue().y : 0;
 
         Animator anim = GetComponent<Animator>();
 
@@ -97,7 +97,8 @@ public class Player : MonoBehaviour
         }
 
         //Digging with shovel
-        if ((Input.GetKeyDown(KeyCode.X) || Gamepad.current.xButton.wasPressedThisFrame)  && shovelMovesCount > 0 && canDig){
+        bool xButtonPressed = Gamepad.current != null ? Gamepad.current.xButton.wasPressedThisFrame : false;
+        if ((Input.GetKeyDown(KeyCode.X) || xButtonPressed)  && shovelMovesCount > 0 && canDig){
             Tilemap ground = GameObject.Find("Ground").GetComponent<Tilemap>();
 
            Vector3Int tilePosition = ground.WorldToCell(new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z));
@@ -118,8 +119,10 @@ public class Player : MonoBehaviour
             shovelMovesCount--;
         }
 
+
+        bool aButtonPressed = Gamepad.current != null ? Gamepad.current.aButton.wasPressedThisFrame : false;
         //Hit with shovel
-        if ((Input.GetKeyDown(KeyCode.C) || Gamepad.current.aButton.wasPressedThisFrame) && shovelMovesCount > 0)
+        if ((Input.GetKeyDown(KeyCode.C) || aButtonPressed) && shovelMovesCount > 0)
         {
 
             Transform shovelhitbox = null;
