@@ -1,3 +1,5 @@
 *.kra~
 *.png~
 *gif.log
+*.kra-autosave.kra
+*.DotSettings.user.meta
