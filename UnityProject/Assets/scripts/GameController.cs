@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         pauseText = GameObject.FindWithTag("Pause");
-        pauseText.SetActive(false);
+        pauseText?.SetActive(false);
     }
 
     // Update is called once per frame
@@ -27,22 +27,23 @@ public class GameController : MonoBehaviour
             {
                 ResumeGame();
             }
-            paused = !paused;
         }
         
     }
 
-    void PauseGame()
+    public void PauseGame()
     {
+        paused = !paused;
         Time.timeScale = 0;
-        AudioListener.pause = true;
-        pauseText?.SetActive(true);
+        AudioListener.pause = paused;
+        pauseText?.SetActive(paused);
     }
 
-    void ResumeGame()
+    public void ResumeGame()
     {
+        paused = !paused;
         Time.timeScale = 1;
-        AudioListener.pause = false;
-        pauseText?.SetActive(false);
+        AudioListener.pause = paused;
+        pauseText?.SetActive(paused);
     }
 }

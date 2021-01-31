@@ -13,6 +13,8 @@ public class DialogueBoxScript : MonoBehaviour
 
     private Sprite[] sprites;
 
+    private GameController controller;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +24,8 @@ public class DialogueBoxScript : MonoBehaviour
         transform.position = new Vector2(Screen.width / 2, transform.position.y);
 
         HideText();
+
+        controller = GameObject.FindObjectOfType<GameController>();
     }
 
     // Update is called once per frame
@@ -39,9 +43,10 @@ public class DialogueBoxScript : MonoBehaviour
             {
 
                 HideText();
-
+                controller.ResumeGame();
                 //Unfreeze player
                 GameObject.Find("Player").GetComponent<Player>().enabled = true;
+
             }
 
 
@@ -56,9 +61,11 @@ public class DialogueBoxScript : MonoBehaviour
 
 
             //freeze player
-            GameObject.Find("Player").GetComponent<Rigidbody2D>().velocity = Vector3.zero;
-            GameObject.Find("Player").GetComponent<Player>().enabled = false;
-            GameObject.Find("Player").GetComponent<Animator>().SetBool("isWalking",false);
+            // GameObject.Find("Player").GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            // GameObject.Find("Player").GetComponent<Player>().enabled = false;
+            // GameObject.Find("Player").GetComponent<Animator>().SetBool("isWalking",false);
+
+            controller.PauseGame();
 
             // GameObject.Find("Light").GetComponent<LightMovement>().enabled = false;
 
