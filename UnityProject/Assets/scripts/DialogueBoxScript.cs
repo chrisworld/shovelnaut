@@ -56,8 +56,11 @@ public class DialogueBoxScript : MonoBehaviour
 
 
             //freeze player
+            GameObject.Find("Player").GetComponent<Rigidbody2D>().velocity = Vector3.zero;
             GameObject.Find("Player").GetComponent<Player>().enabled = false;
-           // GameObject.Find("Light").GetComponent<LightMovement>().enabled = false;
+            GameObject.Find("Player").GetComponent<Animator>().SetBool("isWalking",false);
+
+            // GameObject.Find("Light").GetComponent<LightMovement>().enabled = false;
 
 
             this.texts = texts;
