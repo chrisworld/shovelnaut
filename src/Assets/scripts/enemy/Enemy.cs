@@ -88,7 +88,7 @@ public class Enemy : MonoBehaviour
     {
         // TODO: check if 
         float dist2d = Vector2.Distance((Vector2)transform.position, (Vector2)_player.transform.position);
-        if (dist2d < _playerHearDistance && !isWaiting)
+        if (dist2d < _playerHearDistance)
         {
             StartFollowingPlayer();
         }
