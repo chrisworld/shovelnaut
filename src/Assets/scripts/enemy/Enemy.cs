@@ -79,7 +79,11 @@ public class Enemy : MonoBehaviour
         else 
         {
             // shouled here only be player or spaceship
-            aIDestinationSetter.setTarget(GameObject.FindGameObjectWithTag(type.ToString()).transform, type);
+            GameObject tar = GameObject.FindGameObjectWithTag(type.ToString());
+            if (tar)
+            {
+                aIDestinationSetter.setTarget(tar.transform, type);
+            }
         }
         aIDestinationSetter.targetType = type;
     }

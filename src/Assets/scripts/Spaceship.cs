@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class Spaceship : MonoBehaviour
 {
@@ -22,6 +24,7 @@ public class Spaceship : MonoBehaviour
         //LOSE-Condition
         if(shipPartCount == 0)
         {
+            SceneManager.LoadScene("LoseScene", LoadSceneMode.Single);
 
         }
         else if (shipPartCount == maxShipParts)
