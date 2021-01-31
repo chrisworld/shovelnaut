@@ -1,0 +1,27 @@
+﻿<Properties StartupConfiguration="{5B580621-09B4-68CB-B5F4-5B9DD210A60F}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/UIShovelMoves.cs">
+    <Files>
+      <File FileName="Assets/scripts/RandomWalkEnemy.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/DialogueBoxScript.cs" Line="66" Column="93" />
+      <File FileName="Assets/scripts/DialogueEventScript.cs" Line="20" Column="73" />
+      <File FileName="Assets/scripts/Player.cs" Line="125" Column="1" />
+      <File FileName="Assets/scripts/MakeFootSteps.cs" Line="39" Column="46" />
+      <File FileName="Assets/scripts/Lifespan.cs" Line="24" Column="29" />
+      <File FileName="Assets/scripts/UIShovelMoves.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="UnityProject" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="b280ad3b-85cc-493e-a434-9c8fe3f639df" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

@@ -7,6 +7,7 @@ public class Spaceship : MonoBehaviour
     //Number of Parts in the Ship
     public int shipPartCount;
     public int shovelMovesCount;
+    public int maxShipParts;
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +18,16 @@ public class Spaceship : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        //LOSE-Condition
+        if(shipPartCount == 0)
+        {
+
+        }
+        else if (shipPartCount == maxShipParts)
+        {
+            //WIN-Condition
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
