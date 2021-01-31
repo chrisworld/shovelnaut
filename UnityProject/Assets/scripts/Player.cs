@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //Mouse Controls
         /*
@@ -63,26 +63,24 @@ public class Player : MonoBehaviour
         */
 
 
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float horizontalGamepad = Gamepad.current.leftStick.ReadValue().x;
-        float vertical = Input.GetAxisRaw("Vertical");
-        float verticalGamepad = Gamepad.current.leftStick.ReadValue().y;
+        float horizontal = Input.GetAxisRaw("Horizontal") != 0 ? Input.GetAxisRaw("Horizontal") : Gamepad.current.leftStick.ReadValue().x;
+        float vertical = Input.GetAxisRaw("Vertical") != 0 ? Input.GetAxisRaw("Vertical") : Gamepad.current.leftStick.ReadValue().y;
 
         rigidbody.velocity = new Vector2(horizontal * moveSpeed, vertical * moveSpeed);
 
-        if(horizontal < 0 || horizontalGamepad < 0)
+        if(horizontal < 0)
         {
             direction = Direction.Left;
         }
-        else if (horizontal > 0 || horizontalGamepad > 0)
+        else if (horizontal > 0)
         {
             direction = Direction.Right;
         }
-        else if (vertical < 0 || verticalGamepad < 0)
+        else if (vertical < 0)
         {
             direction = Direction.Down;
         }
-        else if (vertical > 0 || verticalGamepad < 0)
+        else if (vertical > 0)
         {
             direction = Direction.Up;
         }
